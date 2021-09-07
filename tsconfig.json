@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "jsx": "preserve",
+    "module": "esnext",
+    "typeRoots": [
+      "node_modules/@types",
+      "src/types",
+      "@types/chai",
+      "@types/mocha"
+    ],
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "skipLibCheck": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext",
+      "ES2018"
+    ],
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "noEmit": true,
+    "isolatedModules": true
+  },
+  "include": [
+    "src",
+    // "**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "build",
+    "cache",
+    // "artifacts",
+    // "dist"
+  ]
+}
