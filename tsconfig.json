@@ -31,13 +31,13 @@
   },
   "include": [
     "src",
-    // "**/*.ts"
+    "**/*.ts"
   ],
   "exclude": [
     "node_modules",
     "build",
     "cache",
-    // "artifacts",
-    // "dist"
+    "artifacts",
+    "dist"
   ]
 }
