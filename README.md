@@ -12,3 +12,8 @@ npm i
 truffle migrate
 npm start
 ```
+
+## Testing
+```bash
+truffle test
+```
