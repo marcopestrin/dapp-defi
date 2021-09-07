@@ -4,7 +4,7 @@ My first decentralized application by Ethereum blockchain
 ## Requirements
 - Node JS
 - Metamask (Chrome extension)
-- Ganache
+- Ganache (Truffle Suite)
 
 ## Getting start
 ```bash
