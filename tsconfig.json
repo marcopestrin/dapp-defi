@@ -29,15 +29,6 @@
     "noEmit": true,
     "isolatedModules": true
   },
-  "include": [
-    "src",
-    "**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "build",
-    "cache",
-    "artifacts",
-    "dist"
-  ]
+  "exclude": [ "node_modules", "build", "cache" ],
+  "include": [ "src", "**/*.ts", "migrations/2_deploy_contracts.js", "migrations/1_initial_migration.js" ]
 }

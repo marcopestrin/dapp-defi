@@ -1,5 +1,5 @@
 const Migrations = artifacts.require("Migrations");
 
-export const migrations = function(deployer: Truffle.Deployer) {
+module.exports =function(deployer) {
   deployer.deploy(Migrations);
 };
