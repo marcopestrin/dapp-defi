@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Web3 from "web3";
 import Navbar from "./Navbar";
 import Main from "./Main";
+import Withdraw from "./Withdraw";
+import Balance from "./Balance";
 import { Token } from "../interfaces";
 
 const DaiToken = require("../abis/DaiToken.json");
@@ -54,14 +56,25 @@ const App = () => {
     });
   }
 
-  const unstakeTokens = () => {
+  const unstakeTokens = (amount: number) => {
     setLoading(true);
-    tokenFarm.methods.unstakeTokens().send({ from: account }).on('transactionHash', async(hash: string) => {
-      await loadTokens();
-      setLoading(false);
+    daiToken.methods.approve(tokenFarm._address, amount).send({ from: account }).on('transactionHash', (hash: string) => {
+      tokenFarm.methods.unstakeTokens(amount).send({ from: account }).on('transactionHash', async(hash: string) => {
+        await loadTokens();
+        setLoading(false);
+      });
     });
   }
 
+  const withdrawTokens = () => {
+      setLoading(true);
+      tokenFarm.methods.withdrawTokens().send({ from: account }).on('transactionHash', async(hash: string) => {
+        await loadTokens();
+        setLoading(false);
+      });
+    }
+
+    
   const loadTokens = async() => {
     const web3 = window.web3;
     const accounts = await web3.eth.getAccounts();
@@ -115,13 +128,24 @@ const App = () => {
       <>
         { loading
           ? <p id="loader" className="text-center">Loading...</p>
-          : <Main
-              daiTokenBalance={daiTokenBalance}
-              dappTokenBalance={dappTokenBalance}
-              stakingBalance={stakingBalance}
-              stakeTokens={stakeTokens}
-              unstakeTokens={unstakeTokens}
-          />
+          : <>
+            <Balance
+              daiToken={daiTokenBalance}
+              dappToken={dappTokenBalance}
+              staking={stakingBalance}
+            />
+            <Main
+                staking={true}
+                sendToken={stakeTokens}
+            />
+            <Main
+                staking={false}
+                sendToken={unstakeTokens}
+            />
+            <Withdraw
+                unstakeTokens={withdrawTokens}
+            />
+          </>
         }
       </>
     )
