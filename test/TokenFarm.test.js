@@ -61,7 +61,7 @@ contract('TokenFarm', ([owner, investor]) => {
       let result
 
       // set mockup data for example
-      const description = "my description";
+      const description = "my description here -- example";
 
       // Check investor balance before staking
       result = await daiToken.balanceOf(investor);
@@ -115,7 +115,7 @@ contract('TokenFarm', ([owner, investor]) => {
       console.log("Ensure that only onwer can issue tokens");
 
       // Unstake tokens
-      await tokenFarm.unstakeTokens(tokens('90'), { from: investor });
+      await tokenFarm.unstakeTokens(tokens('90'), transactionCount.toString(), description, { from: investor });
       console.log("unstake tokens!", tokens('90'));
 
       // Check results after unstaking

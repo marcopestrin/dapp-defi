@@ -43,35 +43,41 @@ const App = () => {
     window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!');
   };
 
-  const stakeTokens = (amount: number) => {
+  const stakeTokens = (amount: number, description: string) => {
     setLoading(true);
     console.log("info", { amount, account, address: tokenFarm._address});
     daiToken.methods.approve(tokenFarm._address, amount).send({ from: account }).on('transactionHash', (hash: string) => {
       console.log("Hash after approve but before staking:", hash);
-      tokenFarm.methods.stakeTokens(amount).send({ from: account }).on('transactionHash', async(hash: string) => {
-        console.log("Hash after staking:", hash);
-        await loadTokens();
-        setLoading(false);
-      });
+      tokenFarm.methods.stakeTokens(amount, hash, description)
+        .send({ from: account })
+        .on('transactionHash', async(hash: string) => {
+          console.log("Hash after staking:", hash);
+          await loadTokens();
+          setLoading(false);
+        });
     });
   }
 
-  const unstakeTokens = (amount: number) => {
+  const unstakeTokens = (amount: number, description: string) => {
     setLoading(true);
     daiToken.methods.approve(tokenFarm._address, amount).send({ from: account }).on('transactionHash', (hash: string) => {
-      tokenFarm.methods.unstakeTokens(amount).send({ from: account }).on('transactionHash', async(hash: string) => {
-        await loadTokens();
-        setLoading(false);
-      });
+      tokenFarm.methods.unstakeTokens(amount, hash, description)
+        .send({ from: account })
+        .on('transactionHash', async(hash: string) => {
+          await loadTokens();
+          setLoading(false);
+        });
     });
   }
 
   const withdrawTokens = () => {
       setLoading(true);
-      tokenFarm.methods.withdrawTokens().send({ from: account }).on('transactionHash', async(hash: string) => {
-        await loadTokens();
-        setLoading(false);
-      });
+      tokenFarm.methods.withdrawTokens()
+        .send({ from: account })
+        .on('transactionHash', async(hash: string) => {
+          await loadTokens();
+          setLoading(false);
+        });
     }
 
     

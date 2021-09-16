@@ -4,7 +4,7 @@ export interface Token {
 }
 export interface MainProps {
   staking: boolean,
-  sendToken: (amount:number) => void,
+  sendToken: (amount: number, description: string) => void,
 }
 export interface BalanceProps {
   daiToken: string,
