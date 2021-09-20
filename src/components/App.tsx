@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Web3 from "web3";
 import Navbar from "./Navbar";
 import Main from "./Main";
+import Withdraw from "./Withdraw";
+import Balance from "./Balance";
 import { Token } from "../interfaces";
 
 const DaiToken = require("../abis/DaiToken.json");
@@ -41,27 +43,44 @@ const App = () => {
     window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!');
   };
 
-  const stakeTokens = (amount: number) => {
+  const stakeTokens = (amount: number, description: string) => {
     setLoading(true);
     console.log("info", { amount, account, address: tokenFarm._address});
     daiToken.methods.approve(tokenFarm._address, amount).send({ from: account }).on('transactionHash', (hash: string) => {
       console.log("Hash after approve but before staking:", hash);
-      tokenFarm.methods.stakeTokens(amount).send({ from: account }).on('transactionHash', async(hash: string) => {
-        console.log("Hash after staking:", hash);
-        await loadTokens();
-        setLoading(false);
-      });
+      tokenFarm.methods.stakeTokens(amount, hash, description)
+        .send({ from: account })
+        .on('transactionHash', async(hash: string) => {
+          console.log("Hash after staking:", hash);
+          await loadTokens();
+          setLoading(false);
+        });
     });
   }
 
-  const unstakeTokens = () => {
+  const unstakeTokens = (amount: number, description: string) => {
     setLoading(true);
-    tokenFarm.methods.unstakeTokens().send({ from: account }).on('transactionHash', async(hash: string) => {
-      await loadTokens();
-      setLoading(false);
+    daiToken.methods.approve(tokenFarm._address, amount).send({ from: account }).on('transactionHash', (hash: string) => {
+      tokenFarm.methods.unstakeTokens(amount, hash, description)
+        .send({ from: account })
+        .on('transactionHash', async(hash: string) => {
+          await loadTokens();
+          setLoading(false);
+        });
     });
   }
 
+  const withdrawTokens = () => {
+      setLoading(true);
+      tokenFarm.methods.withdrawTokens()
+        .send({ from: account })
+        .on('transactionHash', async(hash: string) => {
+          await loadTokens();
+          setLoading(false);
+        });
+    }
+
+    
   const loadTokens = async() => {
     const web3 = window.web3;
     const accounts = await web3.eth.getAccounts();
@@ -115,13 +134,24 @@ const App = () => {
       <>
         { loading
           ? <p id="loader" className="text-center">Loading...</p>
-          : <Main
-              daiTokenBalance={daiTokenBalance}
-              dappTokenBalance={dappTokenBalance}
-              stakingBalance={stakingBalance}
-              stakeTokens={stakeTokens}
-              unstakeTokens={unstakeTokens}
-          />
+          : <>
+            <Balance
+              daiToken={daiTokenBalance}
+              dappToken={dappTokenBalance}
+              staking={stakingBalance}
+            />
+            <Main
+                staking={true}
+                sendToken={stakeTokens}
+            />
+            <Main
+                staking={false}
+                sendToken={unstakeTokens}
+            />
+            <Withdraw
+                unstakeTokens={withdrawTokens}
+            />
+          </>
         }
       </>
     )

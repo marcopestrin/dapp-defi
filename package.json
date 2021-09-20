@@ -1,7 +1,7 @@
 {
   "name": "Staking App",
-  "version": "0.2.0",
-  "description": "DeFi Token Staking App",
+  "version": "0.3.0",
+  "description": "My first decentralized application by Ethereum blockchain. The application simulates the staking of tokens just like in decentralized finance.",
   "author": "Marco Pestrin - pestrinmarco@gmail.com",
   "dependencies": {
     "@types/jest": "^27.0.1",
