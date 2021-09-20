@@ -34,14 +34,15 @@ const Main = ({ sendToken, staking }: MainProps) => {
       <div className="card mb-4" >
         <div className="card-body">
           <form className="mb-3" onSubmit={(e) => handleSubmit(e)}>
-            <div>
+            <div className="form-group">
               <label className="float-left">
                 <b>Amount to { staking ? "stake" : "unstaking" }:</b>
               </label>
             </div>
-            <div className="input-group mb-4">
-              <input type="text" className="form-control form-control-lg" placeholder="description transaction" required onChange={handleDescription} />
-              <br />
+            <div className="input-group mb-4 form-group">
+              <input type="text" className="form-control form-control-lg" placeholder="Description transaction" required onChange={handleDescription} />
+            </div>
+            <div className="input-group mb-4 form-group">
               <input type="text" className="form-control form-control-lg" placeholder="0" required onChange={handleAmount} />
               <div className="input-group-append">
                 <div className="input-group-text">
