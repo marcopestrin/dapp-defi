@@ -41,8 +41,7 @@ contract TokenFarm {
     function unstakeTokens(uint _amount, string memory _hashTransaction, string memory _description) public {
         // Require amount greater than 0 and less than token already staked
         require(_amount > 0, "amount cannot be 0");
-        // TO FIX!
-        // require(_amount > daiTokenBalance, "import to high");
+        require(_amount > daiTokenBalance[msg.sender], "import to high");
         // Make sure description and hash exists
         require(bytes(_description).length > 0, "description cannot be empty");
         require(bytes(_hashTransaction).length > 0, "Hash cannot be empty");
