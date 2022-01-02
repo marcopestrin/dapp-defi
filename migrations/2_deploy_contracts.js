@@ -3,11 +3,7 @@ const DaiToken = artifacts.require("DaiToken");
 const TokenFarm = artifacts.require("TokenFarm");
 
 
-module.exports = async function(
-  deployer,
-  network,
-  accounts
-){
+module.exports = async function( deployer, network, accounts ){
   await deployer.deploy(DaiToken);
   await deployer.deploy(DappToken);
 
