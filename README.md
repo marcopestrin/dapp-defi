@@ -8,7 +8,8 @@ My first decentralized application by Ethereum blockchain. The application simul
 
 ## Getting start
 ```bash
-npm i
+sudo npm install -g
+brew install truffle # if you using MaxOS
 truffle migrate
 npm start
 ```
